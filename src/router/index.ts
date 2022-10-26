@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 const NavBar = () => import("@/components/NavBar.vue");
 const Footer = () => import("@/components/Footer.vue");
-const Home = () => import("@/views/front/Home.vue");
+
 import "vue-router";
 
 declare module "vue-router" {
@@ -17,12 +17,84 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "home",
     components: {
-      default: Home,
+      default: () => import("@/views/front/Home.vue"),
       navbar: NavBar,
       footer: Footer,
     },
     meta: {
       title: "Médécine Esthétique au Cameroun | " + websiteName,
+    },
+  },
+  {
+    path: "/medecine-esthetique",
+    name: "esthetic",
+    components: {
+      default: () => import("@/views/front/Esthetic.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Traitements Médécine Esthétique au Cameroun | " + websiteName,
+    },
+  },
+  {
+    path: "/bel-ann-cosmetic",
+    name: "bel-ann-cosmetic",
+    components: {
+      default: () => import("@/views/front/BelAnn.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Bel Ann Cosmetic | " + websiteName,
+    },
+  },
+  {
+    path: "/actualites",
+    name: "post",
+    components: {
+      default: () => import("@/views/front/Post.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Actualités | " + websiteName,
+    },
+  },
+  {
+    path: "/medecine-esthetique/:slug",
+    name: "single-esthetic",
+    components: {
+      default: () => import("@/views/front/SingleEsthetic.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Médécine Esthétique au Cameroun | " + websiteName,
+    },
+  },
+  {
+    path: "/actualites/:slug",
+    name: "single-post",
+    components: {
+      default: () => import("@/views/front/SinglePost.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Actualités | " + websiteName,
+    },
+  },
+  {
+    path: "/contact",
+    name: "contact",
+    components: {
+      default: () => import("@/views/front/Contact.vue"),
+      navbar: NavBar,
+      footer: Footer,
+    },
+    meta: {
+      title: "Contactez - nous | " + websiteName,
     },
   },
 ];

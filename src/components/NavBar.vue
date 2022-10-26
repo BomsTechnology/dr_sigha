@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { XIcon, MenuIcon, ChevronDownIcon } from "@heroicons/vue/solid";
+import {
+  XMarkIcon,
+  Bars3Icon,
+  ChevronDownIcon,
+  CalendarIcon,
+} from "@heroicons/vue/24/outline";
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const open = reactive({
   menu: false,
   submenu: false,
 });
+
 const isScroll = ref(false);
 document.addEventListener("scroll", function () {
   let bodyTopPosition = document.body.getBoundingClientRect().top;
@@ -14,12 +23,17 @@ document.addEventListener("scroll", function () {
     isScroll.value = false;
   }
 });
+
+async function goTo(route: string): Promise<void> {
+  open.menu = false;
+  router.push({ name: route });
+}
 </script>
 <template>
   <nav
     :class="[
       isScroll
-        ? 'w-full lg:py-6 py-4 px-4 shadow-md z-20 fixed bg-white/75'
+        ? 'w-full lg:py-6 py-4 px-4 shadow-md z-20 fixed bg-white'
         : 'w-full lg:py-6 py-4 lg:px-10 px-4 lg:shadow-none z-10 fixed bg-white lg:bg-transparent',
     ]"
   >
@@ -27,12 +41,19 @@ document.addEventListener("scroll", function () {
       <div
         class="lg:w-72 flex justify-between items-center w-full lg:px-0 px-3"
       >
-        <a
-          href="#"
-          class="text-title font-satisfy lg:text-3xl md:2xl text-xl font-bold"
+        <router-link
+          :to="{ name: 'home' }"
+          class="text-title font-satisfy lg:text-3xl md:2xl text-xl font-bold md:block hidden"
         >
           <span>Dr. SIGHA Odette</span>
-        </a>
+        </router-link>
+        <button
+          type="button"
+          @click="goTo('home')"
+          class="text-title font-satisfy lg:text-3xl md:2xl text-xl font-bold md:hidden block"
+        >
+          <span>Dr. SIGHA Odette</span>
+        </button>
         <div class="relative block lg:hidden" @click="open.menu = !open.menu">
           <transition-group
             enter-active-class="transition duration-500"
@@ -49,7 +70,7 @@ document.addEventListener("scroll", function () {
               class="hover:text-title text-gray-500 focus:text-title focus:outline-none"
               aria-label="toggle menu"
             >
-              <MenuIcon class="h-6 w-6 fill-current" />
+              <Bars3Icon class="h-6 w-6 fill-current" />
             </button>
             <button
               v-if="open.menu"
@@ -57,7 +78,7 @@ document.addEventListener("scroll", function () {
               class="hover:text-title text-gray-500 focus:text-title focus:outline-none"
               aria-label="toggle menu"
             >
-              <XIcon class="h-6 w-6 fill-current" />
+              <XMarkIcon class="h-6 w-6 fill-current" />
             </button>
           </transition-group>
         </div>
@@ -65,17 +86,14 @@ document.addEventListener("scroll", function () {
       <div
         class="space-x-4 w-full xl:text-lg text-sm lg:block hidden text-right text-gray-500"
       >
-        <a
-          href="#"
-          class="inline-block px-4 py-2 rounded hover:bg-title hover:text-white transition-colors"
-          >Mon Parcours</a
-        >
         <div
           @mouseenter="open.submenu = true"
           @mouseleave="open.submenu = false"
           class="inline-block relative hover:bg-title rounded-t px-4 py-2 hover:text-white transition-colors"
         >
-          <a href="#" class="block w-full">Médécine Esthétique</a>
+          <router-link :to="{ name: 'esthetic' }" class="block w-full"
+            >Médécine Esthétique</router-link
+          >
           <Transition
             enter-active-class="transition duration-500"
             enter-from-class="opacity-0  scale-75"
@@ -107,21 +125,30 @@ document.addEventListener("scroll", function () {
           </Transition>
         </div>
 
-        <a
-          href="#"
+        <router-link
+          :to="{ name: 'bel-ann-cosmetic' }"
           class="inline-block px-4 py-2 rounded hover:bg-title hover:text-white transition-colors"
-          >Bel ann cosmetic</a
+          >Bel ann cosmetic</router-link
         >
-        <a
-          href="#"
+        <router-link
+          :to="{ name: 'post' }"
           class="inline-block px-4 py-2 rounded hover:bg-title hover:text-white transition-colors"
-          >Actualités</a
+          >Actualités</router-link
         >
-        <a
-          href="#"
+        <router-link
+          :to="{ name: 'contact' }"
           class="inline-block lg:px-4 px-3 py-2 rounded hover:bg-title hover:text-white transition-colors"
-          >Contact</a
+          >Contact</router-link
         >
+        <div class="inline-block">
+          <button
+            type="button"
+            class="lg:px-4 px-3 py-2 bg-title text-white rounded-lg mt-3 flex items-center space-x-2 justify-center text-lg hover:bg-white hover:text-title hover:border-title border-white border transition-all"
+          >
+            <CalendarIcon class="h-5 w-5" />
+            <span>Rendez-vous</span>
+          </button>
+        </div>
       </div>
       <Transition
         enter-active-class="transition duration-500"
@@ -135,53 +162,65 @@ document.addEventListener("scroll", function () {
           v-if="open.menu"
           class="mt-4 lg:hidden w-full text-gray-500 shadow rounded bg-white"
         >
-          <a
-            href="#"
-            class="block px-3 py-2 rounded hover:bg-title border-b hover:text-white transition-colors"
-            >Mon Parcours</a
-          >
-          <a
-            href="#"
-            class="flex px-3 py-2 justify-between items-center rounded border-b hover:bg-title hover:text-white transition-colors"
+          <button
+            type="button"
+            @click="goTo('esthetic')"
+            class="flex w-full text-left px-3 py-2 justify-between items-center rounded border-b hover:bg-title hover:text-white transition-colors"
           >
             <span>Médécine Esthétique</span>
             <ChevronDownIcon class="w-5 h-5 text-title" />
-          </a>
+          </button>
 
           <nav
             class="break-words text-sm block pl-10 bg-gray-50 border-b text-left"
           >
-            <a
-              href="#"
-              class="block py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
-              >Rajeunissement facial</a
+            <button
+              type="button"
+              class="block w-full text-left py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
             >
-            <a
-              href="#"
-              class="block py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
-              >Liposuccion / Liposculpture du corps</a
+              Rajeunissement facial
+            </button>
+            <button
+              type="button"
+              class="block w-full text-left py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
             >
-            <a
-              href="#"
-              class="block py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
-              >Peeling</a
+              Liposuccion / Liposculpture du corps
+            </button>
+            <button
+              type="button"
+              class="block w-full text-left py-2 px-4 text-gray-500 hover:bg-title hover:text-white transition-colors"
             >
+              Peeling
+            </button>
           </nav>
+          <button
+            type="button"
+            @click="goTo('bel-ann-cosmetic')"
+            class="block w-full text-left px-3 py-2 rounded hover:bg-title border-b hover:text-white transition-colors"
+          >
+            Bel ann cosmetic
+          </button>
+          <button
+            type="button"
+            @click="goTo('post')"
+            class="block w-full text-left px-3 py-2 rounded hover:bg-title border-b hover:text-white transition-colors"
+          >
+            Actualités
+          </button>
+          <button
+            type="button"
+            @click="goTo('contact')"
+            class="block w-full text-left px-3 py-2 rounded hover:bg-title hover:text-white transition-colors"
+          >
+            Contact
+          </button>
           <a
             href="#"
-            class="block px-3 py-2 rounded hover:bg-title border-b hover:text-white transition-colors"
-            >Bel ann cosmetic</a
+            class="lg:px-4 px-3 py-2 bg-title text-white rounded-lg mt-3 flex items-center space-x-2 justify-center text-lg hover:bg-white hover:text-title hover:border-title border-white border transition-all"
           >
-          <a
-            href="#"
-            class="block px-3 py-2 rounded hover:bg-title border-b hover:text-white transition-colors"
-            >Actualités</a
-          >
-          <a
-            href="#"
-            class="block px-3 py-2 rounded hover:bg-title hover:text-white transition-colors"
-            >Contact</a
-          >
+            <CalendarIcon class="h-5 w-5" />
+            <span>Rendez-vous</span>
+          </a>
         </div>
       </Transition>
     </div>

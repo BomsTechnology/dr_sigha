@@ -8,10 +8,12 @@ module.exports = {
         satisfy: "Satisfy",
       },
       colors: {
-        title: "#fd79a8",
+        title: "#4B9A77",
         secondary: "#C5D0DD",
+        "custom-yellow": "#FCF894",
+        "custom-red": "#DF030E",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MailIcon } from "@heroicons/vue/solid";
+import { EnvelopeIcon } from "@heroicons/vue/24/outline";
 </script>
 <template>
   <hr class="lg:mx-20 mx-4 border border-gray-100" />
@@ -52,7 +52,7 @@ import { MailIcon } from "@heroicons/vue/solid";
         </svg>
       </a>
       <a href="#">
-        <MailIcon class="h-5 w-4.5 text-gray-700 hover:text-title" />
+        <EnvelopeIcon class="h-5 w-4.5 text-gray-700 hover:text-title" />
       </a>
     </div>
   </footer>
